@@ -1,0 +1,25 @@
+python -m venv crudenv
+
+crudenv\Scripts\activate
+
+pip install Django
+django-admin --version
+
+project creat===  django-admin startproject crud .
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py showmigrations
+python manage.py createsuperuser
+
+
+python -m venv crudenv - Create virtual environment
+crudenv\Scripts\activate - Activate virtual environment
+pip install Django - Install Django
+django-admin --version - Check Django version
+django-admin startproject crud . - Create Django project
+python manage.py makemigrations - Create migrations
+python manage.py migrate - Apply migrations
+python manage.py showmigrations - View migration status
+python manage.py createsuperuser - Create admin user
+Working comments explaining each step 

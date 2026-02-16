@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %}Signup{% endblock %}
+
+{% block main_content %}
+<div class="container mt-5" style="max-width: 500px;">
+  <h3>Create Account</h3>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+      <div style="color:red;">
+        {{ form.errors }}
+      </div>
+    {% endif %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <p>Already have account? <a href="{% url 'login' %}">Login</a></p>
+</div>
+{% endblock %}

@@ -1,76 +1,57 @@
-{% extends 'core/base.html' %}
-
-{% block title %}
-Home
-{% endblock title %}
+{% extends "core/base.html" %}
+{% block title %}Home{% endblock %}
 
 {% block main_content %}
-<section class="container">
 
-    <!-- Title -->
-    <div class="row justify-content-center text-center text-white mt-5">
-        <div class="col-sm-8">
-            <h1>CRUD project in python Django</h1>
-        </div>
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="text-white m-0">Students</h3>
+    <div class="d-flex gap-2">
+      <span class="text-white">Logged in as: <b>{{ request.user.username }}</b></span>
+      <a class="btn btn-warning btn-sm" href="{% url 'logout' %}">Logout</a>
     </div>
+  </div>
 
-    <!-- Add Button -->
-    <div class="row justify-content-center mt-3">
-        <div class="col-sm-8">
-            <a href="{% url 'add-student' %}" class="btn btn-primary float-end">ADD</a>
-        </div>
-    </div>
+  <div class="card p-3 mb-3">
+    <a class="btn btn-primary" href="{% url 'add-student' %}">+ Add Student</a>
+  </div>
 
-    <!-- Table -->
-    <div class="row justify-content-center mt-3">
-        <div class="col-sm-8">
-            <table class="table table-dark table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Roll</th>
-                        <th scope="col">City</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
+  <div class="card p-3">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Roll</th>
+          <th>City</th>
+          <th style="width: 220px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in stu_data %}
+          <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.roll }}</td>
+            <td>{{ s.city }}</td>
+            <td class="d-flex gap-2">
+              <a class="btn btn-sm btn-info" href="{% url 'update-student' s.id %}">Edit</a>
 
-                <tbody>
-                    {% for stud in stu_data %}
-                    <tr>
-                        <th scope="row">{{ stud.id }}</th>
-                        <td>{{ stud.name }}</td>
-                        <td>{{ stud.roll }}</td>
-                        <td>{{ stud.city }}</td>
+              <form method="post" action="{% url 'delete-student' %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ s.id }}">
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4">No students found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-                        <td class="d-flex gap-2">
-                            <!-- Update Button -->
-                            <a href="{% url 'update-student' stud.id %}" 
-                               class="btn btn-success btn-sm">
-                               Update
-                            </a>
+</div>
 
-                            <!-- Delete Form -->
-                            <form action="{% url 'delete-student' %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="id" value="{{ stud.id }}">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            No students found
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</section>
-{% endblock main_content %}
+{% endblock %}
